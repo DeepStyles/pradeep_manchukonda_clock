@@ -22,13 +22,18 @@ class DigitalClock extends StatelessWidget {
           'assets/test_rive.flr',
           alignment: Alignment.center,
           fit: BoxFit.cover,
-          animation: 'tuesday',
+          animation: 'wednesday',
         ),
         TweenAnimationBuilder(
           curve: Curves.bounceOut,
-          tween: Tween<double>(begin: 0.0, end: 0.95),
-          builder: (_, double scaleValue, __) {
-            return Transform.scale(child: ClockDig(), scale: scaleValue);
+          tween: Tween<double>(begin: 0.0, end: 1),
+          builder: (_, scaleValue, __) {
+            return Transform.scale(
+                child: ClockDig(
+                  gradTopColor: ColorConstants.colorMap['wednesday-top'],
+                  gradBottomColor: ColorConstants.colorMap['wednesday-bottom'],
+                ),
+                scale: scaleValue);
           },
           duration: const Duration(seconds: 3),
         ),
@@ -38,6 +43,11 @@ class DigitalClock extends StatelessWidget {
 }
 
 class ClockDig extends StatefulWidget {
+  ClockDig({this.gradTopColor, this.gradBottomColor});
+
+  final gradTopColor;
+  final gradBottomColor;
+
   @override
   _ClockDigState createState() => _ClockDigState();
 }
@@ -77,10 +87,14 @@ class _ClockDigState extends State<ClockDig> {
 
   @override
   Widget build(BuildContext context) {
+    // print('width: ${MediaQuery.of(context).size.width}');
+    // print('height: ${MediaQuery.of(context).size.height}');
+    // print('aspect: ${MediaQuery.of(context).size.aspectRatio}');
+    final aspect = MediaQuery.of(context).size.aspectRatio;
     return Center(
       child: Container(
-        width: MediaQuery.of(context).size.width * 0.38,
-        height: 100,
+        width: aspect * 140,
+        height: aspect * 48,
         // color: Colors.yellowAccent,
         child: Stack(
           alignment: Alignment.center,
@@ -91,34 +105,43 @@ class _ClockDigState extends State<ClockDig> {
                     child: Stack(
                   alignment: Alignment.center,
                   children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: 8.0,
+                    Semantics(
+                      label: 'Whats Today??',
+                      readOnly: true,
+                      value: 'Its ${_now.getDayName()}',
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          top: 8.0,
+                        ),
+                        child: Align(
+                            alignment: Alignment.topCenter,
+                            child: Text('${_now.getDayName()}',
+                                style: TextStyle(
+                                    fontSize: aspect * 5,
+                                    color: Colors.white))),
                       ),
-                      child: Align(
-                          alignment: Alignment.topCenter,
-                          child: Text('${_now.getDayName()}',
-                              style: TextStyle(
-                                  fontSize: 10, color: Colors.white))),
                     ),
-                    GradientText(
-                        '${_now.getTwelveHourFormat().addZero()}  ${_now.minute.addZero()}',
-                        gradient: LinearGradient(colors: [
-                          ColorConstants.colorMap['tuesday-top'],
-                          ColorConstants.colorMap['tuesday-bottom'],
-                        ]),
-                        style: TextStyle(
-                            fontSize:
-                                MediaQuery.of(context).size.width * 0.085)),
+                    Semantics(
+                        label: 'Clock Time',
+                        readOnly: true,
+                        value:
+                            '${_now.getTwelveHourFormat()} ${_now.minute} ${_now.amOrPm()}',
+                        child: GradTextWidget(
+                          text:
+                              '${_now.getTwelveHourFormat().addZero()}  ${_now.minute.addZero()}',
+                          gradTopColor: widget.gradTopColor,
+                          gradBottomColor: widget.gradBottomColor,
+                          textFont: aspect * 30,
+                        )),
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0),
+                      padding: EdgeInsets.only(bottom: aspect * 4.0),
                       child: GradientText(
                         ':',
                         gradient: LinearGradient(colors: [
-                          Color(0xFF5FFAE0),
-                          Color(0xFFC22ED0),
+                          widget.gradTopColor,
+                          widget.gradBottomColor,
                         ]),
-                        style: TextStyle(fontSize: 42),
+                        style: TextStyle(fontSize: aspect * 25),
                       ),
                     ),
                   ],
@@ -129,21 +152,26 @@ class _ClockDigState extends State<ClockDig> {
                   children: <Widget>[
                     Container(
                         child: CustomPaint(
-                            painter: DigiTalClockPaint(index: _now.second))),
-                    GradientText('${(_now.second + 1).addZero()}',
-                        gradient: LinearGradient(colors: [
-                          Color(0xFF5FFAE0),
-                          Color(0xFFC22ED0),
-                        ]),
-                        style: TextStyle(fontSize: 32),
-                        textAlign: TextAlign.center),
+                            painter: DigiTalClockPaint(
+                                primColor: widget.gradTopColor,
+                                secColor: widget.gradBottomColor,
+                                index: _now.second,
+                                secondsCirRad: aspect * 22.0,
+                                midCirRad: aspect * 19.0,
+                                dotCirRad: aspect * 15.0))),
+                    GradTextWidget(
+                      text: '${(_now.second + 1).addZero()}',
+                      gradTopColor: widget.gradTopColor,
+                      gradBottomColor: widget.gradBottomColor,
+                      textFont: aspect * 13,
+                    ),
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 22.0, left: 5),
+                      padding: EdgeInsets.only(bottom: aspect * 12.0, left: 5),
                       child: Align(
                           alignment: Alignment.bottomCenter,
                           child: Text('${_now.amOrPm()}',
                               style: TextStyle(
-                                  fontSize: 10, color: Colors.white))),
+                                  fontSize: aspect * 4, color: Colors.white))),
                     ),
                   ],
                 )
@@ -156,28 +184,29 @@ class _ClockDigState extends State<ClockDig> {
   }
 }
 
-class TimeText extends StatelessWidget {
-  const TimeText({
+class GradTextWidget extends StatelessWidget {
+  const GradTextWidget({
     Key key,
+    @required Color gradBottomColor,
+    @required Color gradTopColor,
+    @required double textFont,
     @required String text,
   })  : _text = text,
+        _textFont = textFont,
+        _gradTopColor = gradTopColor,
+        _gradBottomColor = gradBottomColor,
         super(key: key);
 
   final String _text;
+  final double _textFont;
+  final Color _gradTopColor;
+  final Color _gradBottomColor;
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-          width: 200,
-          height: 100,
-          child: GradientText(_text,
-              gradient: LinearGradient(colors: [
-                Color(0xFF5FFAE0),
-                Color(0xFFC22ED0),
-              ]),
-              style: TextStyle(fontSize: 62),
-              textAlign: TextAlign.center)),
-    );
+    return GradientText(_text,
+        gradient: LinearGradient(colors: [_gradTopColor, _gradBottomColor]),
+        style: TextStyle(fontSize: _textFont),
+        textAlign: TextAlign.center);
   }
 }
