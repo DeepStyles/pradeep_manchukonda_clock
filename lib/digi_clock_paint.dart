@@ -1,28 +1,36 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:pradeep_manchukonda_clock/extensions.dart';
 
 class DigiTalClockPaint extends CustomPainter {
   DigiTalClockPaint(
-      {this.index,
+      {this.second,
       this.dotCirRad,
       this.midCirRad,
       this.secondsCirRad,
       this.primColor,
-      this.secColor});
+      this.secColor})
+      : assert(second != null),
+        assert(dotCirRad != null),
+        assert(midCirRad != null),
+        assert(primColor != null),
+        assert(secColor != null),
+        assert(secondsCirRad != null),
+        assert(second >= 0 && second < 60),
+        assert(dotCirRad > 0 && midCirRad > 0 && secondsCirRad > 0),
+        assert(
+            primColor != Colors.transparent && secColor != Colors.transparent);
 
-  final index;
-  final secondsCirRad;
-  final midCirRad;
-  final dotCirRad;
-  final primColor;
-  final secColor;
+  int second;
+  double secondsCirRad;
+  double midCirRad;
+  double dotCirRad;
+  Color primColor;
+  Color secColor;
 
   @override
   void paint(Canvas canvas, Size size) {
-    // print('paint');
-    final rectCirclePaint = Paint()
+    final rectColorPaint = Paint()
       ..filterQuality = FilterQuality.high
       ..isAntiAlias = true
       ..color = secColor
@@ -31,46 +39,43 @@ class DigiTalClockPaint extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..maskFilter = MaskFilter.blur(BlurStyle.inner, 1.0);
 
-    final rectCirclePaint1 = Paint()
-      // ..color = Color(0xFFC22ED0)
+    final rectWhitePaint = Paint()
+      ..isAntiAlias = true
+      ..filterQuality = FilterQuality.high
       ..color = Colors.white
       ..strokeCap = StrokeCap.butt
       ..strokeWidth = 5
       ..style = PaintingStyle.stroke
       ..maskFilter = MaskFilter.blur(BlurStyle.inner, 1.0);
 
-    final rectp = Paint()
-      // ..color = Color(0xFFC22ED0)
+    
+    final hourCircleWhitePaint = Paint()
+      ..isAntiAlias = true
+      ..filterQuality = FilterQuality.high
       ..color = Colors.white
       ..strokeCap = StrokeCap.round
-      ..strokeWidth = 2
+      ..strokeWidth = 1.5
       ..style = PaintingStyle.fill
       ..maskFilter = MaskFilter.blur(BlurStyle.inner, 1.0);
-
-    final rectp1 = Paint()
-      // ..color = Color(0xFFC22ED0)
-      ..color = primColor
-      ..strokeCap = StrokeCap.round
-      ..strokeWidth = 2
-      ..style = PaintingStyle.fill
-      ..maskFilter = MaskFilter.blur(BlurStyle.inner, 1.0);
-    // Color(0xFFC22ED0)
 
     final circlep = Paint()
-      // ..color = Color(0xFFC22ED0)
+      ..isAntiAlias = true
+      ..filterQuality = FilterQuality.high
       ..color = primColor
       ..strokeWidth = 3
       ..style = PaintingStyle.stroke
       ..maskFilter = MaskFilter.blur(BlurStyle.inner, 1.0);
 
     final circlep1 = Paint()
-      // ..color = Color(0xFFC22ED0)
+      ..isAntiAlias = true
+      ..filterQuality = FilterQuality.high
       ..color = secColor
       ..strokeWidth = 1
       ..style = PaintingStyle.stroke
       ..maskFilter = MaskFilter.blur(BlurStyle.inner, 1.0);
 
-    final center = Offset(size.width / 2, size.height / 2);
+    final center = (Offset.zero & size).center;
+
     canvas.drawCircle(center, midCirRad, circlep);
     canvas.drawCircle(center, dotCirRad, circlep1);
 
@@ -82,14 +87,12 @@ class DigiTalClockPaint extends CustomPainter {
           i * pi / 30,
           pi / 30,
           false,
-          i == index ? rectCirclePaint : rectCirclePaint1);
-      // }
+          i == second ? rectColorPaint : rectWhitePaint);
     }
 
     canvas.rotate(-pi / 60);
     for (int i = 0; i < 12; i++) {
-      canvas.drawCircle(Offset(dotCirRad, 0), 3,
-          DateTime.now().getTwelveHourFormat() == i ? rectp1 : rectp);
+      canvas.drawCircle(Offset(dotCirRad, 0), 2, hourCircleWhitePaint);
       canvas.rotate(2 * pi / 12);
     }
 
@@ -97,7 +100,7 @@ class DigiTalClockPaint extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return this.index != oldDelegate;
+  bool shouldRepaint(DigiTalClockPaint oldDelegate) {
+    return oldDelegate.second != second;
   }
 }
