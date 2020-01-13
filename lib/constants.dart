@@ -27,6 +27,7 @@ class Constants {
 
   static const curveBounce = Curves.bounceOut;
 
+  static const durThree = Duration(seconds: 3);
   static const cAlign = Alignment.center;
   static const tcAlign = Alignment.topCenter;
   static const bcAlign = Alignment.bottomCenter;

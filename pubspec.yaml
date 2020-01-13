@@ -1,5 +1,5 @@
 name: pradeep_manchukonda_clock
-description: A new Flutter project.
+description: Clock Implementation for Flutter Competition.
 
 version: 1.0.0+1
 
@@ -7,13 +7,13 @@ environment:
   sdk: ">=2.6.0 <3.0.0"
 
 dependencies:
+  intl: ^0.16.1
   gradient_text: ^1.0.2
   flare_flutter: ^1.8.1
   flutter:
     sdk: flutter
   flutter_clock_helper:
     path: ../flutter_clock_helper
-  intl: ^0.16.1
 
 dev_dependencies:
   flutter_test:

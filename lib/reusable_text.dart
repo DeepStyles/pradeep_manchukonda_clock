@@ -13,12 +13,12 @@ class ReusableText extends StatelessWidget {
     this.leftPadding = 0,
   }) : super(key: key);
 
-  final String textName;
+  final textName;
+  final alignment;
+  final fontSize;
   final double topPadding;
   final double botPadding;
   final double leftPadding;
-  final alignment;
-  final double fontSize;
 
   @override
   Widget build(BuildContext context) {

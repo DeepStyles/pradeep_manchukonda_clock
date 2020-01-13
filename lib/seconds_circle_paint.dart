@@ -33,7 +33,7 @@ class DigiTalClockPaint extends CustomPainter {
     final rectColorPaint = Paint()
       ..filterQuality = FilterQuality.high
       ..isAntiAlias = true
-      ..color = secColor
+      ..color = primColor
       ..strokeCap = StrokeCap.butt
       ..strokeWidth = 5
       ..style = PaintingStyle.stroke
@@ -48,7 +48,6 @@ class DigiTalClockPaint extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..maskFilter = MaskFilter.blur(BlurStyle.inner, 1.0);
 
-    
     final hourCircleWhitePaint = Paint()
       ..isAntiAlias = true
       ..filterQuality = FilterQuality.high
@@ -58,7 +57,7 @@ class DigiTalClockPaint extends CustomPainter {
       ..style = PaintingStyle.fill
       ..maskFilter = MaskFilter.blur(BlurStyle.inner, 1.0);
 
-    final circlep = Paint()
+    final medCirclep = Paint()
       ..isAntiAlias = true
       ..filterQuality = FilterQuality.high
       ..color = primColor
@@ -66,7 +65,7 @@ class DigiTalClockPaint extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..maskFilter = MaskFilter.blur(BlurStyle.inner, 1.0);
 
-    final circlep1 = Paint()
+    final smallCirclep = Paint()
       ..isAntiAlias = true
       ..filterQuality = FilterQuality.high
       ..color = secColor
@@ -76,10 +75,10 @@ class DigiTalClockPaint extends CustomPainter {
 
     final center = (Offset.zero & size).center;
 
-    canvas.drawCircle(center, midCirRad, circlep);
-    canvas.drawCircle(center, dotCirRad, circlep1);
+    canvas.drawCircle(center, midCirRad, medCirclep);
+    canvas.drawCircle(center, dotCirRad, smallCirclep);
 
-    canvas.rotate(-pi / 2);
+    canvas.rotate(-pi / 2 - pi / 60);
     canvas.save();
     for (var i = 0; i < 60; i++) {
       canvas.drawArc(
@@ -90,7 +89,7 @@ class DigiTalClockPaint extends CustomPainter {
           i == second ? rectColorPaint : rectWhitePaint);
     }
 
-    canvas.rotate(-pi / 60);
+    canvas.rotate(pi / 60);
     for (int i = 0; i < 12; i++) {
       canvas.drawCircle(Offset(dotCirRad, 0), 2, hourCircleWhitePaint);
       canvas.rotate(2 * pi / 12);

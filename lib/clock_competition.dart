@@ -1,14 +1,14 @@
 import 'dart:async';
 import 'dart:core';
 
-import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
+
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter_clock_helper/model.dart';
 
 import 'package:pradeep_manchukonda_clock/utils.dart';
 import 'package:pradeep_manchukonda_clock/constants.dart';
-import 'package:pradeep_manchukonda_clock/digi_clock_paint.dart';
-
+import 'package:pradeep_manchukonda_clock/seconds_circle_paint.dart';
 import 'package:pradeep_manchukonda_clock/grad_text.dart';
 import 'package:pradeep_manchukonda_clock/reusable_text.dart';
 
@@ -113,18 +113,20 @@ class _ClockDigState extends State<ClockDig> {
                   alignment: Constants.cAlign,
                   children: <Widget>[
                     Semantics(
+                      enabled: true,
                       label: Constants.semanticDayName,
                       readOnly: true,
                       value: 'Its ${getTime('EEEE')}',
                       child: ReusableText(
-                        textName: dayName,
+                        textName: dayName.toUpperCase(),
                         alignment: Constants.tcAlign,
                         fontSize: aspect * 5,
-                        topPadding: aspect * 4,
+                        topPadding: aspect * 5,
                         leftPadding: 2,
                       ),
                     ),
                     Semantics(
+                        enabled: true,
                         label: Constants.semanticClockTime,
                         readOnly: true,
                         value:
@@ -159,18 +161,28 @@ class _ClockDigState extends State<ClockDig> {
                                 midCirRad: aspect * 18.0,
                                 dotCirRad: aspect * 15.0))),
                     GradTextWidget(
-                      text: addZero(DateTime.now().second),
+                      text: addZero(_now.second == 0 ? 60 : _now.second),
                       gradTopColor: widget.gradTopColor,
                       gradBottomColor: widget.gradBottomColor,
                       textFont: aspect * 13,
                     ),
-                    ReusableText(
-                        textName: amOrpm,
-                        alignment: Constants.bcAlign,
-                        fontSize: aspect * 4,
-                        // topPadding: 0,
-                        leftPadding: 3,
-                        botPadding: aspect * 12.0),
+                    AnimatedOpacity(
+                      duration: Constants.durThree,
+                      opacity: widget.clockModel.is24HourFormat ? 0 : 1,
+                      child: TweenAnimationBuilder(
+                        duration: Constants.durThree,
+                        tween: Tween<double>(
+                            begin: aspect * 8.0, end: aspect * 13.0),
+                        builder: (_, padding, __) {
+                          return ReusableText(
+                              textName: amOrpm,
+                              alignment: Constants.bcAlign,
+                              fontSize: aspect * 4,
+                              leftPadding: 2,
+                              botPadding: padding);
+                        },
+                      ),
+                    ),
                   ],
                 )
               ],
