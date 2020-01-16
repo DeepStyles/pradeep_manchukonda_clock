@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
@@ -30,6 +31,8 @@ class DigiTalClockPaint extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    final center = (Offset.zero & size).center;
+
     final rectColorPaint = Paint()
       ..filterQuality = FilterQuality.high
       ..isAntiAlias = true
@@ -61,6 +64,14 @@ class DigiTalClockPaint extends CustomPainter {
       ..isAntiAlias = true
       ..filterQuality = FilterQuality.high
       ..color = primColor
+      ..shader = SweepGradient(
+        colors: [secColor, primColor],
+        startAngle: 0.0,
+        endAngle: 4.28,
+      ).createShader(Rect.fromCircle(
+        center: center,
+        radius: midCirRad,
+      ))
       ..strokeWidth = 3
       ..style = PaintingStyle.stroke
       ..maskFilter = MaskFilter.blur(BlurStyle.inner, 1.0);
@@ -73,9 +84,9 @@ class DigiTalClockPaint extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..maskFilter = MaskFilter.blur(BlurStyle.inner, 1.0);
 
-    final center = (Offset.zero & size).center;
-
-    canvas.drawCircle(center, midCirRad, medCirclep);
+    // canvas.drawCircle(center, midCirRad, medCirclep);
+    canvas.drawArc(Rect.fromCircle(center: center, radius: midCirRad), 0, 6.28,
+        false, medCirclep);
     canvas.drawCircle(center, dotCirRad, smallCirclep);
 
     canvas.rotate(-pi / 2 - pi / 60);

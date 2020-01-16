@@ -93,101 +93,130 @@ class _ClockDigState extends State<ClockDig> {
   @override
   Widget build(BuildContext context) {
     final aspect = MediaQuery.of(context).size.aspectRatio;
-    final hour =
-        widget.clockModel.is24HourFormat ? getTime('HH') : getTime('hh');
-    final minute = getTime('mm');
-    final amOrpm = getTime('a');
-    final dayName = getTime('EEEE');
+    final hour = widget.clockModel.is24HourFormat
+        ? getTime('${Constants.str24HourFormat}')
+        : getTime('${Constants.str12HourFormat}');
+    final minute = getTime('${Constants.strMins}');
+    final amOrpm = getTime('${Constants.stramOrpm}');
+    final dayName = getTime('${Constants.strDayName}');
 
     return Center(
-      child: Container(
-        width: aspect * 140,
-        height: aspect * 47,
-        child: Stack(
-          alignment: Constants.cAlign,
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                Expanded(
+      child: Padding(
+        padding: EdgeInsets.only(left: aspect * 35.0),
+        child: SizedBox(
+          width: aspect * 140,
+          height: aspect * 47,
+          child: Stack(
+            alignment: Constants.cAlign,
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  Flexible(
+                      flex: 2,
+                      child: Stack(
+                        alignment: Constants.cAlign,
+                        children: <Widget>[
+                          Semantics(
+                            enabled: true,
+                            label: Constants.semanticDayName,
+                            readOnly: true,
+                            value: 'Its ${getTime('EEEE')}',
+                            child: ReusableText(
+                              textName: dayName.toUpperCase(),
+                              alignment: Constants.tcAlign,
+                              fontSize: aspect * 4,
+                              topPadding: aspect * 5,
+                              rightPadding: 5,
+                            ),
+                          ),
+                          Semantics(
+                              enabled: true,
+                              label: Constants.semanticClockTime,
+                              readOnly: true,
+                              value:
+                                  'Its ${getTime('hh')} hour ${getTime('mm')} minutes ${getTime('a')}',
+                              child: Row(
+                                children: <Widget>[
+                                  GradTextWidget(
+                                    // width: aspect * 80.0,
+                                    // height: aspect * 45,
+                                    text: '$hour ',
+                                    gradTopColor: widget.gradTopColor,
+                                    gradBottomColor: widget.gradBottomColor,
+                                    textFont: aspect * 30,
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                      // right: aspect * 45.0,
+                                      bottom: aspect * 3.0,
+                                    ),
+                                    child: GradTextWidget(
+                                      // width: aspect * 5,
+                                      // height: aspect * 35,
+                                      text: ':',
+                                      gradTopColor: widget.gradTopColor,
+                                      gradBottomColor: widget.gradBottomColor,
+                                      textFont: aspect * 20,
+                                    ),
+                                  ),
+                                  GradTextWidget(
+                                    // width: aspect * 80.0,
+                                    // height: aspect * 45,
+                                    text: ' $minute',
+                                    gradTopColor: widget.gradTopColor,
+                                    gradBottomColor: widget.gradBottomColor,
+                                    textFont: aspect * 30,
+                                  ),
+                                ],
+                              )),
+                        ],
+                      )),
+                  Flexible(
+                    flex: 1,
                     child: Stack(
-                  alignment: Constants.cAlign,
-                  children: <Widget>[
-                    Semantics(
-                      enabled: true,
-                      label: Constants.semanticDayName,
-                      readOnly: true,
-                      value: 'Its ${getTime('EEEE')}',
-                      child: ReusableText(
-                        textName: dayName.toUpperCase(),
-                        alignment: Constants.tcAlign,
-                        fontSize: aspect * 5,
-                        topPadding: aspect * 5,
-                        leftPadding: 2,
-                      ),
-                    ),
-                    Semantics(
-                        enabled: true,
-                        label: Constants.semanticClockTime,
-                        readOnly: true,
-                        value:
-                            'Its ${getTime('hh')} hour ${getTime('mm')} minutes ${getTime('a')}',
-                        child: GradTextWidget(
-                          text: '$hour  $minute',
+                      alignment: Constants.cAlign,
+                      children: <Widget>[
+                        Container(
+                            child: CustomPaint(
+                                painter: DigiTalClockPaint(
+                                    primColor: widget.gradBottomColor,
+                                    secColor: widget.gradTopColor,
+                                    second: _now.second,
+                                    secondsCirRad: aspect * 22.0,
+                                    midCirRad: aspect * 18.0,
+                                    dotCirRad: aspect * 15.0))),
+                        GradTextWidget(
+                          // width: aspect * 20.0,
+                          // height: aspect * 18,
+                          text: addZero(_now.second == 0 ? 60 : _now.second),
                           gradTopColor: widget.gradTopColor,
                           gradBottomColor: widget.gradBottomColor,
-                          textFont: aspect * 30,
-                        )),
-                    Padding(
-                      padding: EdgeInsets.only(bottom: aspect * 4.0),
-                      child: GradTextWidget(
-                        text: ':',
-                        gradTopColor: widget.gradTopColor,
-                        gradBottomColor: widget.gradBottomColor,
-                        textFont: aspect * 25,
-                      ),
+                          textFont: aspect * 15,
+                        ),
+                        AnimatedOpacity(
+                          duration: Constants.durThree,
+                          opacity: widget.clockModel.is24HourFormat ? 0 : 1,
+                          child: TweenAnimationBuilder(
+                            duration: Constants.durThree,
+                            tween: Tween<double>(
+                                begin: aspect * 8.0, end: aspect * 13.0),
+                            builder: (_, padding, __) {
+                              return ReusableText(
+                                  textName: amOrpm,
+                                  alignment: Constants.bcAlign,
+                                  fontSize: aspect * 4,
+                                  leftPadding: 2,
+                                  botPadding: padding);
+                            },
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                )),
-                Stack(
-                  alignment: Constants.cAlign,
-                  children: <Widget>[
-                    Container(
-                        child: CustomPaint(
-                            painter: DigiTalClockPaint(
-                                primColor: widget.gradBottomColor,
-                                secColor: widget.gradTopColor,
-                                second: _now.second,
-                                secondsCirRad: aspect * 22.0,
-                                midCirRad: aspect * 18.0,
-                                dotCirRad: aspect * 15.0))),
-                    GradTextWidget(
-                      text: addZero(_now.second == 0 ? 60 : _now.second),
-                      gradTopColor: widget.gradTopColor,
-                      gradBottomColor: widget.gradBottomColor,
-                      textFont: aspect * 13,
-                    ),
-                    AnimatedOpacity(
-                      duration: Constants.durThree,
-                      opacity: widget.clockModel.is24HourFormat ? 0 : 1,
-                      child: TweenAnimationBuilder(
-                        duration: Constants.durThree,
-                        tween: Tween<double>(
-                            begin: aspect * 8.0, end: aspect * 13.0),
-                        builder: (_, padding, __) {
-                          return ReusableText(
-                              textName: amOrpm,
-                              alignment: Constants.bcAlign,
-                              fontSize: aspect * 4,
-                              leftPadding: 2,
-                              botPadding: padding);
-                        },
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ],
+                  )
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

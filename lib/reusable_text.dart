@@ -9,6 +9,7 @@ class ReusableText extends StatelessWidget {
     @required this.textName,
     @required this.alignment,
     this.topPadding = 0,
+    this.rightPadding = 0,
     this.botPadding = 0,
     this.leftPadding = 0,
   }) : super(key: key);
@@ -16,6 +17,8 @@ class ReusableText extends StatelessWidget {
   final textName;
   final alignment;
   final fontSize;
+  final double rightPadding;
+
   final double topPadding;
   final double botPadding;
   final double leftPadding;
@@ -24,7 +27,10 @@ class ReusableText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(
-          top: topPadding, bottom: botPadding, left: leftPadding),
+          top: topPadding,
+          bottom: botPadding,
+          left: leftPadding,
+          right: rightPadding),
       child: Align(
           alignment: alignment,
           child: Text(textName,

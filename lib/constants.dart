@@ -8,8 +8,8 @@ class Constants {
     'tuesdayBottom': Color(0xFFF048C6),
     'wednesdayTop': Color(0xFFE3FF73),
     'wednesdayBottom': Color(0xFFE27C39),
-    'thursdayTop': Color(0xFFA96F44),
-    'thursdayBottom': Color(0xFFF2ECB6),
+    'thursdayTop': Color(0xFF0CCDA3),
+    'thursdayBottom': Color(0xFFC1FCD3),
     'fridayTop': Color(0xFF07A3B2),
     'fridayBottom': Color(0xFFD9ECC7),
     'saturdayTop': Color(0xFFEAD6EE),
@@ -20,8 +20,13 @@ class Constants {
 
   static const semanticClockTime = 'Clock Time';
   static const semanticDayName = 'Whats Today?';
+  static const str12HourFormat = 'hh';
+  static const str24HourFormat = 'HH';
+  static const strMins = 'mm';
+  static const stramOrpm = 'a';
+  static const strDayName = 'EEEE';
 
-  static const assetPath = 'assets/clock_comp.flr';
+  static const assetPath = 'assets/flare/clock_comp.flr';
   static const whiteColor = Colors.white;
   static const scaleDur = Duration(seconds: 3);
 
