@@ -15,6 +15,8 @@ dependencies:
   flutter_clock_helper:
     path: ../flutter_clock_helper
   auto_size_text: ^2.1.0
+  animated_text_kit: ^2.0.0
+  simple_animations: ^1.3.4
 
 dev_dependencies:
   flutter_test:
@@ -33,24 +35,3 @@ flutter:
         - asset: assets/fonts/Rajdhani-light.ttf
         - asset: assets/fonts/Rajdhani-Bold.ttf
         - asset: assets/fonts/Rajdhani-SemiBold.ttf
-
-    - family: AdventPro
-      fonts:
-        - asset: assets/fonts/AdventPro-Regular.ttf
-        - asset: assets/fonts/AdventPro-medium.ttf
-        - asset: assets/fonts/AdventPro-light.ttf
-        - asset: assets/fonts/AdventPro-Bold.ttf
-        - asset: assets/fonts/AdventPro-SemiBold.ttf
-        - asset: assets/fonts/AdventPro-ExtraLight.ttf
-
-    - family: Economica
-      fonts:
-        - asset: assets/fonts/Economica-Bold.ttf
-        - asset: assets/fonts/Economica-Regular.ttf
-
-    - family: Orbitron
-      fonts:
-        - asset: assets/fonts/Orbitron-Black.ttf
-        - asset: assets/fonts/Orbitron-Medium.ttf
-        - asset: assets/fonts/Orbitron-Regular.ttf
-        - asset: assets/fonts/Orbitron-Bold.ttf

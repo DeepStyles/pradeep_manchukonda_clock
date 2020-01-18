@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter_clock_helper/model.dart';
+import 'package:simple_animations/simple_animations.dart';
 
 import 'package:pradeep_manchukonda_clock/utils.dart';
 import 'package:pradeep_manchukonda_clock/constants.dart';
@@ -104,7 +105,7 @@ class _ClockDigState extends State<ClockDig> {
       child: Padding(
         padding: EdgeInsets.only(left: aspect * 35.0),
         child: SizedBox(
-          width: aspect * 140,
+          width: aspect * 135,
           height: aspect * 47,
           child: Stack(
             alignment: Constants.cAlign,
@@ -117,19 +118,6 @@ class _ClockDigState extends State<ClockDig> {
                         alignment: Constants.cAlign,
                         children: <Widget>[
                           Semantics(
-                            enabled: true,
-                            label: Constants.semanticDayName,
-                            readOnly: true,
-                            value: 'Its ${getTime('EEEE')}',
-                            child: ReusableText(
-                              textName: dayName.toUpperCase(),
-                              alignment: Constants.tcAlign,
-                              fontSize: aspect * 4,
-                              topPadding: aspect * 5,
-                              rightPadding: 5,
-                            ),
-                          ),
-                          Semantics(
                               enabled: true,
                               label: Constants.semanticClockTime,
                               readOnly: true,
@@ -137,9 +125,14 @@ class _ClockDigState extends State<ClockDig> {
                                   'Its ${getTime('hh')} hour ${getTime('mm')} minutes ${getTime('a')}',
                               child: Row(
                                 children: <Widget>[
+                                  SizedBox(
+                                    width: aspect * 4,
+                                  ),
                                   GradTextWidget(
                                     // width: aspect * 80.0,
                                     // height: aspect * 45,
+                                    // fontFamily: 'Rajdhani-Light',
+
                                     text: '$hour ',
                                     gradTopColor: widget.gradTopColor,
                                     gradBottomColor: widget.gradBottomColor,
@@ -151,17 +144,18 @@ class _ClockDigState extends State<ClockDig> {
                                       bottom: aspect * 3.0,
                                     ),
                                     child: GradTextWidget(
+                                      // fontFamily: 'Rajdhani-Light',
+
                                       // width: aspect * 5,
                                       // height: aspect * 35,
                                       text: ':',
                                       gradTopColor: widget.gradTopColor,
                                       gradBottomColor: widget.gradBottomColor,
-                                      textFont: aspect * 20,
+                                      textFont: aspect * 24,
                                     ),
                                   ),
                                   GradTextWidget(
-                                    // width: aspect * 80.0,
-                                    // height: aspect * 45,
+                                    // fontFamily: 'Rajdhani-Light',
                                     text: ' $minute',
                                     gradTopColor: widget.gradTopColor,
                                     gradBottomColor: widget.gradBottomColor,
@@ -176,23 +170,32 @@ class _ClockDigState extends State<ClockDig> {
                     child: Stack(
                       alignment: Constants.cAlign,
                       children: <Widget>[
+                        Semantics(
+                          enabled: true,
+                          label: Constants.semanticDayName,
+                          readOnly: true,
+                          value: 'Its ${getTime('EEEE')}',
+                          child: ReusableText(
+                            textName: dayName.toUpperCase(),
+                            alignment: Alignment.center,
+                            fontSize: aspect * 4.5,
+                            botPadding: aspect * 15,
+                            // rightPadding: 6,
+                          ),
+                        ),
                         Container(
                             child: CustomPaint(
                                 painter: DigiTalClockPaint(
                                     primColor: widget.gradBottomColor,
                                     secColor: widget.gradTopColor,
                                     second: _now.second,
-                                    secondsCirRad: aspect * 22.0,
-                                    midCirRad: aspect * 18.0,
-                                    dotCirRad: aspect * 15.0))),
-                        GradTextWidget(
-                          // width: aspect * 20.0,
-                          // height: aspect * 18,
-                          text: addZero(_now.second == 0 ? 60 : _now.second),
-                          gradTopColor: widget.gradTopColor,
-                          gradBottomColor: widget.gradBottomColor,
-                          textFont: aspect * 15,
-                        ),
+                                    secondsCirRad: aspect * 23.0,
+                                    midCirRad: aspect * 19.0,
+                                    dotCirRad: aspect * 16.0))),
+                        SecondsAnimatedWidget(
+                            second: _now.second,
+                            widget: widget,
+                            aspect: aspect),
                         AnimatedOpacity(
                           duration: Constants.durThree,
                           opacity: widget.clockModel.is24HourFormat ? 0 : 1,
@@ -220,5 +223,49 @@ class _ClockDigState extends State<ClockDig> {
         ),
       ),
     );
+  }
+}
+
+class SecondsAnimatedWidget extends StatelessWidget {
+  SecondsAnimatedWidget({
+    Key key,
+    @required int second,
+    @required this.widget,
+    @required this.aspect,
+  })  : _second = second,
+        super(key: key);
+
+  final int _second;
+  final ClockDig widget;
+  final double aspect;
+
+  final tween = MultiTrackTween([
+    Track("opacity")
+        .add(Duration(milliseconds: 700), Tween<double>(begin: 0, end: 1.0)),
+    Track("translate").add(Duration(milliseconds: 700),
+        Tween(begin: Offset(0, -0.5), end: Offset(0, 0))),
+  ]);
+
+  @override
+  Widget build(BuildContext context) {
+    return ControlledAnimation(
+        duration: tween.duration,
+        tween: tween,
+        curve: Curves.easeOutSine,
+        playback: Playback.START_OVER_FORWARD,
+        builder: (_, anim) {
+          return Opacity(
+            child: FractionalTranslation(
+              translation: anim['translate'],
+              child: GradTextWidget(
+                text: addZero(_second == 0 ? 60 : _second),
+                gradTopColor: widget.gradTopColor,
+                gradBottomColor: widget.gradBottomColor,
+                textFont: aspect * 12,
+              ),
+            ),
+            opacity: anim['opacity'],
+          );
+        });
   }
 }

@@ -40,7 +40,7 @@ class DigiTalClockPaint extends CustomPainter {
       ..strokeCap = StrokeCap.butt
       ..strokeWidth = 5
       ..style = PaintingStyle.stroke
-      ..maskFilter = MaskFilter.blur(BlurStyle.inner, 1.0);
+      ..maskFilter = MaskFilter.blur(BlurStyle.normal, 1.0);
 
     final rectWhitePaint = Paint()
       ..isAntiAlias = true
