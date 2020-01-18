@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Constants {
+  ///colors for weekdays
   static const Map<String, Color> colorMap = {
     'mondayTop': Color(0xFF5FFAE0),
     'mondayBottom': Color(0xFFC22ED0),
@@ -26,9 +27,11 @@ class Constants {
   static const stramOrpm = 'a';
   static const strDayName = 'EEEE';
 
+  ///asset path for Flare file
   static const assetPath = 'assets/flare/clock_comp.flr';
   static const whiteColor = Colors.white;
   static const scaleDur = Duration(seconds: 3);
+  static const secDur = Duration(milliseconds: 700);
 
   static const curveBounce = Curves.bounceOut;
 
