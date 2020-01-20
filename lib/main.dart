@@ -17,5 +17,5 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
-  runApp(ClockCustomizer((ClockModel model) => PradeepClock(model)));
+  runApp(ClockCustomizer((ClockModel model) => MyClock(model)));
 }

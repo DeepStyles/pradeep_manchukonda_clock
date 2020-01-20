@@ -38,7 +38,7 @@ class DigiTalClockPaint extends CustomPainter {
       ..isAntiAlias = true
       ..color = primColor
       ..strokeCap = StrokeCap.butt
-      ..strokeWidth = 5
+      ..strokeWidth = 4
       ..style = PaintingStyle.stroke
       ..maskFilter = MaskFilter.blur(BlurStyle.normal, 1.0);
 
@@ -47,7 +47,7 @@ class DigiTalClockPaint extends CustomPainter {
       ..filterQuality = FilterQuality.high
       ..color = Colors.white
       ..strokeCap = StrokeCap.butt
-      ..strokeWidth = 5
+      ..strokeWidth = 4
       ..style = PaintingStyle.stroke
       ..maskFilter = MaskFilter.blur(BlurStyle.inner, 1.0);
 
@@ -82,7 +82,7 @@ class DigiTalClockPaint extends CustomPainter {
     final smallCirclep = Paint()
       ..isAntiAlias = true
       ..filterQuality = FilterQuality.high
-      ..color = secColor
+      ..color = primColor
       ..strokeWidth = 1
       ..style = PaintingStyle.stroke
       ..maskFilter = MaskFilter.blur(BlurStyle.inner, 1.0);

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:pradeep_manchukonda_clock/providers/day_notify.dart';
+import 'package:pradeep_manchukonda_clock/utilities/common_funcs.dart';
+import 'package:provider/provider.dart';
 
 import 'package:simple_animations/simple_animations.dart';
 
 import 'package:pradeep_manchukonda_clock/grad_text.dart';
-import 'package:pradeep_manchukonda_clock/utils.dart';
 
 class SecondsAnimatedWidget extends StatelessWidget {
   SecondsAnimatedWidget({
@@ -31,9 +33,20 @@ class SecondsAnimatedWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dayNameNotifier =
+        Provider.of<DayNameNotifier>(context, listen: false);
+
+    final now = DateTime.now();
+    if (now.hour == 0 && now.minute == 0 && now.second == 0)
+      dayNameNotifier.reload('${getTime('EEEE')}');
+
     return
 
         ///This animates seconds text in loop by translating and changing opacity
+        //   Selector<TimeNotifier, int>(
+        // shouldRebuild: (previous, next) => previous != next,
+        // builder: (_, second, __) {
+        //   return
         ControlledAnimation(
             duration: tween.duration,
             tween: tween,
@@ -47,7 +60,7 @@ class SecondsAnimatedWidget extends StatelessWidget {
                     text: addZero(_second),
                     gradTopColor: _topColor,
                     gradBottomColor: _botColor,
-                    textFont: aspect * 12,
+                    textFont: aspect * 10,
                   ),
                 ),
                 opacity: anim['opacity'],

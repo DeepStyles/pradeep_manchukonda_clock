@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pradeep_manchukonda_clock/utils.dart';
+import 'package:pradeep_manchukonda_clock/utilities/common_funcs.dart';
 
 class DayNameNotifier extends ChangeNotifier {
   String _dayName = '';
