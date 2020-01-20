@@ -44,7 +44,7 @@ class SecondsAnimatedWidget extends StatelessWidget {
                 child: FractionalTranslation(
                   translation: anim['translate'],
                   child: GradTextWidget(
-                    text: addZero(_second == 0 ? 60 : _second),
+                    text: addZero(_second),
                     gradTopColor: _topColor,
                     gradBottomColor: _botColor,
                     textFont: aspect * 12,

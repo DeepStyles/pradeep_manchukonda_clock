@@ -10,7 +10,7 @@ class GradTextWidget extends StatelessWidget {
     @required double textFont,
     @required String text,
   })  : _text = text,
-        _textFont = textFont,
+        _textFont = textFont ?? 8.0,
         _gradTopColor = gradTopColor,
         _gradBottomColor = gradBottomColor,
         super(key: key);
@@ -28,6 +28,7 @@ class GradTextWidget extends StatelessWidget {
           colors: [_gradBottomColor, _gradTopColor],
           radius: 1,
           tileMode: TileMode.mirror),
+      // textAlign: TextAlign.center,
       style: TextStyle(
         fontWeight: FontWeight.normal,
         fontSize: _textFont,

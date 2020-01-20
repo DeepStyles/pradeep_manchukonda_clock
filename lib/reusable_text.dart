@@ -5,9 +5,10 @@ import 'package:pradeep_manchukonda_clock/constants.dart';
 class ReusableText extends StatelessWidget {
   ReusableText({
     Key key,
-    @required this.fontSize,
+    this.fontSize,
     @required this.textName,
-    @required this.alignment,
+    this.fontFamily = 'Rajdhani',
+    this.alignment = Alignment.center,
     this.topPadding = 0,
     this.rightPadding = 0,
     this.botPadding = 0,
@@ -18,7 +19,7 @@ class ReusableText extends StatelessWidget {
   final alignment;
   final fontSize;
   final double rightPadding;
-
+  final String fontFamily;
   final double topPadding;
   final double botPadding;
   final double leftPadding;
@@ -34,8 +35,10 @@ class ReusableText extends StatelessWidget {
       child: Align(
           alignment: alignment,
           child: Text(textName,
-              style:
-                  TextStyle(fontSize: fontSize, color: Constants.whiteColor))),
+              style: TextStyle(
+                  fontFamily: fontFamily,
+                  fontSize: fontSize,
+                  color: Constants.whiteColor))),
     );
   }
 }

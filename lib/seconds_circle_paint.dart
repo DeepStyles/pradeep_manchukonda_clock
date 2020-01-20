@@ -65,9 +65,12 @@ class DigiTalClockPaint extends CustomPainter {
       ..filterQuality = FilterQuality.high
       ..color = primColor
       ..shader = SweepGradient(
-        colors: [secColor, primColor],
-        startAngle: 0.0,
-        endAngle: 4.28,
+        colors: [
+          secColor.withOpacity(0.2),
+          secColor,
+        ],
+        startAngle: -pi / 2,
+        endAngle: 2 * pi,
       ).createShader(Rect.fromCircle(
         center: center,
         radius: midCirRad,
@@ -83,11 +86,22 @@ class DigiTalClockPaint extends CustomPainter {
       ..strokeWidth = 1
       ..style = PaintingStyle.stroke
       ..maskFilter = MaskFilter.blur(BlurStyle.inner, 1.0);
+    // final smallCirclep1 = Paint()
+    //   ..isAntiAlias = true
+    //   ..filterQuality = FilterQuality.high
+    //   ..color = Color(0xFF060D29)
+    //   ..strokeWidth = 1
+    // ..shader =
+    //   ..style = PaintingStyle.fill
+    //   ..maskFilter = MaskFilter.blur(BlurStyle.normal, 1.0);
 
     // canvas.drawCircle(center, midCirRad, medCirclep);
-    canvas.drawArc(Rect.fromCircle(center: center, radius: midCirRad), 0, 6.28,
-        false, medCirclep);
+    canvas.drawArc(Rect.fromCircle(center: center, radius: midCirRad), -pi / 2,
+        2 * pi, false, medCirclep);
+
     canvas.drawCircle(center, dotCirRad, smallCirclep);
+    // canvas.drawCircle(center, dotCirRad - 5, smallCirclep1);
+    // canvas.drawShadow()
 
     canvas.rotate(-pi / 2 - pi / 60);
     canvas.save();
