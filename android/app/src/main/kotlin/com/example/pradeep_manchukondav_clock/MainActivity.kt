@@ -1,4 +1,4 @@
-package deepstyles.pradeep_manchukonda_clock
+package com.example.pradeep_manchukondav_clock
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

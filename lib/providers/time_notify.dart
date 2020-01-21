@@ -6,15 +6,6 @@ import 'package:pradeep_manchukonda_clock/constants.dart';
 import 'package:pradeep_manchukonda_clock/utilities/common_funcs.dart';
 
 class TimeNotifier extends ChangeNotifier {
-  String _minute = '';
-  String _amOrpm = '';
-  String _dayName = '';
-
-  String _hour = '';
-  Timer _timer;
-  int _second = 0;
-  ClockModel _model;
-
   TimeNotifier(ClockModel model) {
     _model = model;
     check24HourFormat(_model.is24HourFormat);
@@ -24,20 +15,49 @@ class TimeNotifier extends ChangeNotifier {
     // _setTime();
   }
 
+  Color gradBottomColor = Constants.colorMap['mondayBottom'];
+  Color gradTopColor = Constants.colorMap['mondayTop'];
+
+  String _amOrpm = '';
+  String _dayName = '';
+  String _hour = '';
+  String _minute = '';
+  ClockModel _model;
+  int _second = 0;
+  Timer _timer;
+
   String get hour => _hour;
+
   ClockModel get model => _model;
+
   int get second => _second;
+
   String get minute => _minute;
 
   String get dayName => _dayName;
 
   String get amOrpm => _amOrpm;
 
+  void reload(String day) {
+    _dayName = day;
+    _notify();
+  }
+
   void _setTime() {
+    final _now = DateTime.now();
+
+    check24HourFormat(_model.is24HourFormat);
+
     _minute = getTime('${Constants.strMins}');
     _amOrpm = getTime('${Constants.stramOrpm}');
     _dayName = getTime('${Constants.strDayName}');
-    _second = DateTime.now().second + 1 == 60 ? 0 : DateTime.now().second + 1;
+
+    /// assigning colors for today
+    gradTopColor = Constants.colorMap['${_dayName.toLowerCase()}Top'];
+    gradBottomColor = Constants.colorMap['${dayName.toLowerCase()}Bottom'];
+
+    ///due to animation of second text, we lag 1 sec, so I added plus 1
+    _second = _now.second + 1 == 60 ? 0 : _now.second + 1;
     _notify();
   }
 

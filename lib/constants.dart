@@ -34,6 +34,7 @@ class Constants {
   static const secDur = Duration(milliseconds: 700);
 
   static const curveBounce = Curves.bounceOut;
+  static const durOne = Duration(seconds: 1);
 
   static const durThree = Duration(seconds: 3);
   static const cAlign = Alignment.center;
