@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:pradeep_manchukonda_clock/constants.dart';
+import 'package:pradeep_manchukonda_clock/utilities/constants.dart';
 
 class ReusableText extends StatelessWidget {
   ReusableText({

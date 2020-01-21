@@ -7,7 +7,7 @@ import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter_clock_helper/model.dart';
 
 import 'package:pradeep_manchukonda_clock/providers/time_notify.dart';
-import 'package:pradeep_manchukonda_clock/constants.dart';
+import 'package:pradeep_manchukonda_clock/utilities/constants.dart';
 import 'package:pradeep_manchukonda_clock/digital_clock.dart';
 
 class MyClock extends StatelessWidget {

@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:pradeep_manchukonda_clock/utilities/common_funcs.dart';
-import 'package:pradeep_manchukonda_clock/neumorphic_widget.dart';
-import 'package:pradeep_manchukonda_clock/constants.dart';
+import 'package:pradeep_manchukonda_clock/widgets/neumorphic_widget.dart';
+import 'package:pradeep_manchukonda_clock/utilities/constants.dart';
 import 'package:pradeep_manchukonda_clock/seconds_circle_paint.dart';
 import 'package:pradeep_manchukonda_clock/providers/time_notify.dart';
-import 'package:pradeep_manchukonda_clock/reusable_text.dart';
-import 'package:pradeep_manchukonda_clock/seconds_widget.dart';
+import 'package:pradeep_manchukonda_clock/widgets/reusable_text.dart';
+import 'package:pradeep_manchukonda_clock/widgets/seconds_widget.dart';
 
 class DigClock extends StatelessWidget {
   const DigClock({this.clockModel});
@@ -18,7 +18,6 @@ class DigClock extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final timeNotifier = Provider.of<TimeNotifier>(context, listen: false);
-
     final media = MediaQuery.of(context);
     final safeAreaHor = media.padding.left + media.padding.right;
     final safeAreaVer = media.padding.top + media.padding.bottom;
@@ -26,6 +25,7 @@ class DigClock extends StatelessWidget {
     final width = media.size.width - safeAreaHor;
     final height = media.size.height - safeAreaVer;
     timeNotifier.check24HourFormat(clockModel.is24HourFormat);
+
     return Semantics(
         enabled: true,
         label: Constants.semanticClockTime,

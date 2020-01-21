@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:simple_animations/simple_animations.dart';
 
 import 'package:pradeep_manchukonda_clock/utilities/common_funcs.dart';
-import 'package:pradeep_manchukonda_clock/constants.dart';
-import 'package:pradeep_manchukonda_clock/grad_text.dart';
+import 'package:pradeep_manchukonda_clock/utilities/constants.dart';
+import 'package:pradeep_manchukonda_clock/widgets/grad_text.dart';
 
 class SecondsAnimatedWidget extends StatelessWidget {
   SecondsAnimatedWidget({

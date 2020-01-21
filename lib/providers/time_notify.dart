@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_clock_helper/model.dart';
-import 'package:pradeep_manchukonda_clock/constants.dart';
+import 'package:pradeep_manchukonda_clock/utilities/constants.dart';
 import 'package:pradeep_manchukonda_clock/utilities/common_funcs.dart';
 
 class TimeNotifier extends ChangeNotifier {

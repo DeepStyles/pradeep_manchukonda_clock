@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:simple_animations/simple_animations.dart';
 
-import 'package:pradeep_manchukonda_clock/constants.dart';
-import 'package:pradeep_manchukonda_clock/reusable_text.dart';
+import 'package:pradeep_manchukonda_clock/utilities/constants.dart';
+import 'package:pradeep_manchukonda_clock/widgets/reusable_text.dart';
 
 class NeumorphicWidget extends StatelessWidget {
   NeumorphicWidget({
